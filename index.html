@@ -126,7 +126,7 @@
         <div id="stage0">
             <img class="main-img" src="https://lh3.googleusercontent.com/u/0/d/10Ksg-RwcQJ-ViHc7StdLiXXu22Dk0TJg">
             <h1 class="pink-text">Will you be my Valentine? ❤️</h1>
-            <div id="btn-container">
+            <div id="btn-container" style="min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <button class="yes-btn" id="valentineYes" onclick="nextStage(1)">Yes</button>
                 <button class="no-btn" id="valentineNo" onclick="handleNoClick()">No</button>
             </div>
@@ -157,7 +157,7 @@
             <div class="coupon-grid">
                 <div class="coupon"><p>Head Massage</p><button class="yes-btn" onclick="redeem('Head Massage')">Redeem</button></div>
                 <div class="coupon"><p>"As long as you crave it"<br>(iykyk)</p><button class="yes-btn" onclick="redeem('As long as you crave it')">Redeem</button></div>
-                <div class="coupon"><p>Lazy Sunday</p><button class="yes-btn" onclick="redeem('Lazy Sunday')">Redeem</button></div>
+                <div class="coupon"><p>Sensual scratching as long as you want</p><button class="yes-btn" onclick="redeem('Sensual scratching as long as you want')">Redeem</button></div>
                 <div class="coupon"><p>Extra Cuddles</p><button class="yes-btn" onclick="redeem('Extra Cuddles')">Redeem</button></div>
             </div>
             <button class="next-btn" onclick="nextStage(4)">A little piece of my heart</button>
@@ -199,17 +199,37 @@
 
     <script>
         const MY_PHONE_NUMBER = "9724017110";
+        let noCount = 0;
+        const noPhrases = [
+            "No", 
+            "Are you sure?", 
+            "Really sure?", 
+            "Think again!", 
+            "Last chance!", 
+            "Surely not?", 
+            "You might regret this!", 
+            "Change of heart?", 
+            "Wait... what?", 
+            "Don't do this to me!"
+        ];
 
         function redeem(item) {
             window.location.href = "sms:" + MY_PHONE_NUMBER + "&body=" + encodeURIComponent("I'm redeeming: " + item + "! ❤️");
         }
 
-        let noCount = 0;
         function handleNoClick() {
             noCount++;
             const yesBtn = document.getElementById('valentineYes');
             const noBtn = document.getElementById('valentineNo');
+            
+            // Growing Yes button
             yesBtn.style.transform = `scale(${1 + (noCount * 0.4)})`;
+            
+            // Changing No button message
+            const phraseIndex = Math.min(noCount, noPhrases.length - 1);
+            noBtn.innerText = noPhrases[phraseIndex];
+            
+            // Runaway feature
             noBtn.style.position = "fixed";
             noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
             noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
